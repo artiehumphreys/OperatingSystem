@@ -1,8 +1,16 @@
-GPPPARAMS = -m32
+GPPPARAMS = -m32 -ffreestanding -O2 -Wall -Wextra
 ASPARAMS = --32
+LDPARAMS = -m elf_i386 -T
+objects = loader.o kernel.o
 
 %.o: %.cpp
-	g++ $(GPPPARAMS) -o $@ -c $<
+	i386-elf-g++ $(GPPPARAMS) -o $@ -c $<
 
 %.o: %.s
-	as $(ASPARAMS) -o $@ $<
+	i386-elf-as $(ASPARAMS) -o $@ $<
+
+mykernel.bin: linker.ld $(objects)
+	i386-elf-ld $(LDPARAMS) linker.ld -o $@ $(objects)
+
+install: mykernel.bin
+	@echo "Manually copy mykernel.bin to your desired location or VM."
