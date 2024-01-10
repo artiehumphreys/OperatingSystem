@@ -1,11 +1,8 @@
-.set MAGIC, 0x1badb002
-.set FLAGS, (1<<0 | 1<<1)
-.set CHECKSUM, -(MAGIC + FLAGS)
-
 .section .multiboot
-    .long MAGIC
-    .long FLAGS
-    .long CHECKSUM
+    .align 4
+    .long 0x1BADB002             /* Multiboot magic number */
+    .long 0x00000003             /* Flags */
+    .long -(0x1BADB002 + 0x00000003) /* Checksum */
 
 .section .text
 .extern kernelMain
@@ -13,10 +10,11 @@
 .global loader
 
 loader:
-    mov $kernel_stack ,%esp
+    mov $kernel_stack + 2*1024*1024, %esp
     push %eax
     push %ebx
-    call loader
+    call kernelMain
+    jmp _stop
 
 _stop:
     cli

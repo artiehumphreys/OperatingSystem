@@ -13,4 +13,4 @@ mykernel.bin: linker.ld $(objects)
 	i386-elf-ld $(LDPARAMS) linker.ld -o $@ $(objects)
 
 install: mykernel.bin
-	@echo "Manually copy mykernel.bin to your desired location or VM."
+	qemu-system-i386 -kernel mykernel.bin -d guest_errors,cpu_reset -no-reboot -no-shutdown
