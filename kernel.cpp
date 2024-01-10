@@ -7,7 +7,7 @@ void printf(char *str)
     }
 }
 
-void kernelMain(void *multibootStructure, unsigned int magicNumber)
+extern "C" void kernelMain(void *multibootStructure, unsigned int magicNumber)
 {
     while (1)
         ;
