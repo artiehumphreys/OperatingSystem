@@ -13,8 +13,7 @@ loader:
     mov $kernel_stack + 2*1024*1024, %esp
     push %eax
     push %ebx
-    call kernelMain
-    jmp _stop
+    call loader
 
 _stop:
     cli
@@ -22,5 +21,6 @@ _stop:
     jmp _stop 
 
 .section .bss
+.align 4
 .space 2*1024*1024
 kernel_stack:
